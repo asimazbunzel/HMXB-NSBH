@@ -1,0 +1,28 @@
+{
+   "metallicity": 0.017,
+
+   "id": "HMXB - NSBH",
+
+   "grid": {
+      "m1_min": 10,
+      "m1_max": 150,
+      "dlm1": 0.05,
+      "q_min": 0.05,
+      "q_max": 0.95,
+      "dq": 0.05,
+      "porb_min": 3,
+      "porb_max": 3000,
+      "dlporb": 0.10,
+      "add_sparse": "True",
+      "m2_min_mass": 8
+   },
+
+   "template": {
+      "location": "",
+      "output": ""
+   },
+
+   "runs": {
+      "location": ""
+   }
+}
