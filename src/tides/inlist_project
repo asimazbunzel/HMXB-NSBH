@@ -17,6 +17,12 @@
    limit_retention_by_mdot_edd = .true.
 
    max_tries_to_achieve = 20
+
+   use_other_sync_spin_to_orbit = .true.
+
+   use_other_jdot_ls = .true.
+
+   use_other_edot_tidal = .true.
          
 / ! end of binary_controls namelist
 
