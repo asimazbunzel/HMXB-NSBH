@@ -8,7 +8,12 @@
       mesa_dir = ''
       show_log_description_at_start = .true.
 
-      pgstar_flag = .true.
+      pgstar_flag = .false.
+
+      change_rotation_flag = .true.
+      new_rotation_flag = .true.
+      set_initial_surface_rotation_v = .true.
+      new_surface_rotation_v = 100
 
 / ! end of star_job namelist
 

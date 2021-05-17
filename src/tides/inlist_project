@@ -12,15 +12,19 @@
    m1 = 1.0d0  ! donor mass in Msun
    m2 = 1.4d0 ! companion mass in Msun
    initial_period_in_days = 2d0
+   initial_eccentricity = 0.2
 
    !transfer efficiency controls
    limit_retention_by_mdot_edd = .true.
 
    max_tries_to_achieve = 20
 
-   use_other_sync_spin_to_orbit = .true.
+   do_jdot_mb = .false.
 
-   use_other_jdot_ls = .true.
+   do_tidal_sync = .true.
+   do_tidal_circ = .true.
+
+   use_other_sync_spin_to_orbit = .true.
 
    use_other_edot_tidal = .true.
          
