@@ -15,7 +15,7 @@
 
 
     m1 = 15d0  ! donor mass in Msun
-    m2 = 1.4d0 ! companion mass in Msun
+    m2 = 10d0 ! companion mass in Msun
     initial_period_in_days = 3d0
     initial_eccentricity = 0.2
 
@@ -36,11 +36,11 @@
     do_tidal_sync = .true.
     do_tidal_circ = .true.
     
-    sync_mode_1 = 'Uniform'
-    sync_type_1 = 'Hut_rad'
-    Ftid_1 = 1
+    !sync_mode_1 = 'Uniform'
+    !sync_type_1 = 'Hut_rad'
+    !Ftid_1 = 1
    
-    use_other_sync_spin_to_orbit = .false.
+    use_other_sync_spin_to_orbit = .true.
     use_other_edot_tidal = .true.
 
     ! numerical resolution during mass-transfer
