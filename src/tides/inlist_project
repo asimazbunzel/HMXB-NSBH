@@ -1,32 +1,64 @@
+
 &binary_job
 
-   inlist_names(1) = 'inlist1' 
-   inlist_names(2) = 'inlist2'
+    show_binary_log_description_at_start = .false.
 
-   evolve_both_stars = .false.
+    inlist_names(1) = 'inlist1' 
+    inlist_names(2) = 'inlist2'
+
+    evolve_both_stars = .false.
 
 / ! end of binary_job namelist
 
+
 &binary_controls
-         
-   m1 = 1.0d0  ! donor mass in Msun
-   m2 = 1.4d0 ! companion mass in Msun
-   initial_period_in_days = 2d0
-   initial_eccentricity = 0.2
 
-   !transfer efficiency controls
-   limit_retention_by_mdot_edd = .true.
 
-   max_tries_to_achieve = 20
+    m1 = 15d0  ! donor mass in Msun
+    m2 = 1.4d0 ! companion mass in Msun
+    initial_period_in_days = 3d0
+    initial_eccentricity = 0.2
 
-   do_jdot_mb = .false.
+    history_name = 'binary_history.data'
+    history_interval = 1
+    append_to_star_history = .false.
+    photo_interval = 50
+    photo_digits = 4
 
-   do_tidal_sync = .true.
-   do_tidal_circ = .true.
+    ! mass-transfer controls
+    mdot_scheme = 'Kolb'
+    limit_retention_by_mdot_edd = .true.
 
-   use_other_sync_spin_to_orbit = .true.
+    do_jdot_mb = .false.
+    do_jdot_missing_wind = .true.
+    do_jdot_ls = .true.
+    do_j_accretion = .false.
+    do_tidal_sync = .true.
+    do_tidal_circ = .true.
+    
+    sync_mode_1 = 'Uniform'
+    sync_type_1 = 'Hut_rad'
+    Ftid_1 = 1
+   
+    use_other_sync_spin_to_orbit = .false.
+    use_other_edot_tidal = .true.
 
-   use_other_edot_tidal = .true.
+    ! numerical resolution during mass-transfer
+    fr = 0.01
+    fr_limit = 1d-2
+    varcontrol_case_a = 3d-4
+    varcontrol_case_b = 5d-4
+    varcontrol_ms = 5d-4
+    varcontrol_post_ms = 5d-4
+    dt_softening_factor = 0.4
+    implicit_scheme_tolerance = 1d-2
+    max_tries_to_achieve = 100
+    min_change_factor = 1.025
+    max_change_factor = 1.2d0
+    initial_change_factor = 1.2d0
+    change_factor_fraction = 0.8d0
+    implicit_lambda = 0.4d0
+    min_mdot_for_implicit = 1d-10
          
 / ! end of binary_controls namelist
 

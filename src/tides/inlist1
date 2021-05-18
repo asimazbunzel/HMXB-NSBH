@@ -1,75 +1,163 @@
 
-! inlist_test_rlo
-
-
-
 &star_job
 
-      mesa_dir = ''
-      show_log_description_at_start = .true.
+    show_log_description_at_start = .false.
 
-      pgstar_flag = .false.
+    pgstar_flag = .false.
 
-      change_rotation_flag = .true.
-      new_rotation_flag = .true.
-      set_initial_surface_rotation_v = .true.
-      new_surface_rotation_v = 100
+	 set_cumulative_energy_error_at_step = 1
+    new_cumulative_energy_error = 0d0
+
+    change_rotation_flag = .true.
+    new_rotation_flag = .true.
+    set_initial_surface_rotation_v = .true.
+    new_surface_rotation_v = 100
+
+    set_initial_age = .true.
+    initial_age = 0
+    set_initial_model_number = .true.
+    initial_model_number = 0
 
 / ! end of star_job namelist
 
+
 &eos
-  ! eos options
-  ! see eos/defaults/eos.defaults
+
+    !logRho_min_for_all_OPAL = -9.5d0
+	 !logRho_min_for_any_OPAL = -9.6d0
+    !logRho_max_for_all_PTEH = 2.92d0
+    !logRho_max_for_any_PTEH = 3.52d0
 
 / ! end of eos namelist
 
 
 &kap
-  ! kap options
-  ! see kap/defaults/kap.defaults
-  use_Type2_opacities = .true.
-  Zbase = 0.02
+
+    ! kap options
+    ! see kap/defaults/kap.defaults
+    use_Type2_opacities = .true.
+    Zbase = 0.02
 
 / ! end of kap namelist
 
 
 &controls
 
-      extra_terminal_output_file = 'log1' 
-      log_directory = 'LOGS1'
+    ! inclination between star spin & orbital angular momentum
+    x_ctrl(1) = 30d0
 
-      profile_interval = 50
-      history_interval = 1
-      terminal_interval = 1
-      write_header_frequency = 10
+    max_model_number = 25000
+
+    report_solver_progress = .false.
+    report_ierr = .false.
+
+    redo_limit = -1
+
+    ! wind options implemented as in Brott et al. 2011
+    use_other_wind = .true.
+    ! close to critical rotation, use implicit wind
+    max_mdot_redo_cnt = 100
+    min_years_dt_for_redo_mdot = 0
+    surf_w_div_w_crit_limit = 0.98d0
+    surf_w_div_w_crit_tol = 0.001d0
+    rotational_mdot_boost_fac = 1d10
+    rotational_mdot_kh_fac = 1d10
+    mdot_revise_factor = 1.2
+    implicit_mdot_boost = 0.1
+    surf_avg_tau_min = 0
+    surf_avg_tau = 10
+
+    ! atmosphere
+    atm_option = 'T_tau'
+    atm_T_tau_relation = 'Eddington'
+    atm_T_tau_opacity = 'fixed'
+
+    ! io controls
+    history_interval = 1
+    write_profiles_flag = .false.
+
+    ! timesteps
+    delta_lgTeff_limit = 0.05d0
+    delta_lgTeff_hard_limit = 0.1d0
+    delta_lgRho_cntr_limit = 0.03
+    delta_lgRho_limit = 0.1
+    delta_lgT_max_limit = 0.001
+    delta_lgT_max_hard_limit = 0.01
+    dHe_div_He_limit = -1
+    delta_lgL_He_limit = 0.1
+    delta_lg_XH_cntr_limit = 0.01d0
+    delta_lg_XH_cntr_max = 0.0d0
+    delta_lg_XH_cntr_min = -4.0d0
+    delta_lg_XH_cntr_hard_limit = 0.02d0
+    dX_nuc_drop_limit = 8d-3
+    dX_nuc_drop_min_X_limit = 1d-3
+    dX_nuc_drop_max_A_limit = 52
+
+    ! limit on changes in timestep
+    !min_timestep_factor = 0.8
+    !max_timestep_factor = 1.05
+    !timestep_factor_for_retries = 0.75
+
+    ! mesh grid resolution
+    mesh_delta_coeff = 1.0  ! 0.5
+    min_dq_for_xa = 1d-4
+    max_dq = 0.0005
+
+    ! solver
+    solver_iters_timestep_limit = 10
+    use_gold2_tolerances = .true.
+    convergence_ignore_equL_residuals = .true.
+    ignore_too_large_correction = .true.
+    make_gradr_sticky_in_solver_iters = .true.
+
+    okay_to_reduce_gradT_excess = .true.
+    gradT_excess_age_fraction = 0.99d0
+    gradT_excess_max_change = 0.001d0
+
+    !screening_mode = 'chugunov'
+
+    scale_max_correction = 0.1
+    ignore_species_in_max_correction = .true.
+
+    ! mixing
+    mixing_length_alpha = 1.5d0
+    MLT_option = 'Henyey'
+    use_Ledoux_criterion = .true.
+    alpha_semiconvection = 1d0
+    thermohaline_coeff = 1d0
+    !min_overshoot_q = 0d0
+    !overshoot_D_min = 100d0
+    !overshoot_scheme(1) = 'exponential'
+    !overshoot_zone_type(1) = 'any'
+    !overshoot_zone_loc(1) = 'any'
+    !overshoot_bdy_loc(1) = 'any'
+    !overshoot_f(1) = 0.01
+    !overshoot_f0(1) = 0.005
+    overshoot_scheme(1) = 'step'
+    overshoot_zone_type(1) = 'burn_H'
+    overshoot_zone_loc(1) = 'core'
+    overshoot_bdy_loc(1) = 'top'
+    overshoot_f(1) = 0.345
+    overshoot_f0(1) = 0.01
+
+    ! this is to avoid odd behaviour when a star switches from accreting to mass losing
+    max_mdot_jump_for_rotation = 1.1
+
+    ! rotation
+    fitted_fp_ft_i_rot = .true.
+    w_div_wcrit_max = 0.9d0
+    am_nu_ST_factor = 1.0
+    D_visc_factor = 0.0
+    am_nu_SH_factor = 0.0
+    D_ST_factor = 0.0
+    D_SH_factor = 0.0
+    D_GSF_factor = 1.0
+    D_ES_factor = 1.0
+    D_SSI_factor = 1.0
+    D_DSI_factor = 1.0
+    am_D_mix_factor = 0.0333333d0
+    am_gradmu_factor = 0.1d0
+    num_cells_for_smooth_gradL_composition_term = 2
+    premix_omega = .true.
 
 / ! end of controls namelist
-
-
-&pgstar
-
-
-      History_Panels1_win_flag = .true.
-      History_Panels1_win_width = 5
-      History_Panels1_win_aspect_ratio = 1.0 ! aspect_ratio = height/width
-      
-      History_Panels1_title = 'Orbital evolution'
-      History_Panels1_num_panels = 2
-      
-      History_Panels1_yaxis_name(1) = 'period_days'
-      History_Panels1_other_yaxis_name(1) = 'lg_mstar_dot_1' 
-      History_Panels1_yaxis_name(2) = 'Jdot' 
-      History_Panels1_other_yaxis_name(2) = 'binary_separation' 
-
-
-      History_Track1_win_flag = .true.
-      History_Track1_title = 'P vs t'
-      History_Track1_xname = 'age'
-      History_Track1_yname = 'period_days'
-      History_Track1_xaxis_label = 't (years)'
-      History_Track1_yaxis_label = 'P (days)'
-      History_Track1_log_xaxis = .false. ! show log10 of abs value
-      History_Track1_log_yaxis = .true. ! show log10 of abs value
-      History_Track1_reverse_xaxis = .false.
-      
-/ ! end of pgstar namelist
