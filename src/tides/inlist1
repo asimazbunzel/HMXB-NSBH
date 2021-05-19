@@ -3,15 +3,19 @@
 
     show_log_description_at_start = .false.
 
-    pgstar_flag = .false.
+    history_columns_file = 'column_lists/history.list'
+    profile_columns_file = 'column_lists/profile.list'
+
+    pgstar_flag = .true.
 
 	 set_cumulative_energy_error_at_step = 1
     new_cumulative_energy_error = 0d0
 
     change_rotation_flag = .true.
     new_rotation_flag = .true.
-    set_initial_surface_rotation_v = .true.
-    new_surface_rotation_v = 100
+
+    set_initial_omega_div_omega_crit = .true.
+    new_omega_div_omega_crit = 0.5d0
 
     set_initial_age = .true.
     initial_age = 0
@@ -44,7 +48,7 @@
 &controls
 
     ! inclination between star spin & orbital angular momentum
-    x_ctrl(1) = 30d0
+    x_ctrl(1) = 45d0
 
     max_model_number = 25000
 
@@ -161,3 +165,11 @@
     premix_omega = .true.
 
 / ! end of controls namelist
+
+
+&pgstar
+
+   read_extra_pgstar_inlist1 = .true.
+   extra_pgstar_inlist1_name = 'inlist_pgstar'
+
+/ ! end of pgstar namelist
