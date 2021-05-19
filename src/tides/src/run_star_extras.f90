@@ -260,7 +260,7 @@
       integer function how_many_extra_history_columns(id)
          integer, intent(in) :: id
 
-         how_many_extra_history_columns = 6
+         how_many_extra_history_columns = 8
 
       end function how_many_extra_history_columns
       
@@ -324,6 +324,12 @@
             vals(6) = (-b% component_mdot(b% a_i))/(b% component_mdot(b% d_i))
          end if
 
+         names(7) = 'inclination'
+         vals(7) = b% xtra(1) * rad2a
+
+         names(8) = 'eccentricity'
+         vals(8) = b% eccentricity
+
       end subroutine data_for_extra_history_columns
 
       
@@ -367,6 +373,13 @@
          if (ierr /= 0) return
 
          extras_finish_step = keep_going
+
+         if (s% center_c12 < 1d-6 .and. s% center_h1 < 1d-6) then
+            s% termination_code = t_xtra1
+            termination_code_str(t_xtra1) = 'reach C depletion'
+            extras_finish_step = terminate
+            return
+         end if
 
       end function extras_finish_step
       
