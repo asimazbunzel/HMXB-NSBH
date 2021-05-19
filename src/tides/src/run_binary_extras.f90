@@ -44,6 +44,7 @@
 
       ! inclination value
       real(dp) :: initial_inclination
+      real(dp), parameter :: min_inclination = 1d-6
       
       contains
       
@@ -226,7 +227,7 @@
          
          include 'formats.inc'
 
-         if (b% doing_first_model_of_run) then
+         if (b% doing_first_model_of_run .or. b% xtra(x_inclination) <= min_inclination) then
             idot = 0d0
             return
          end if
@@ -516,9 +517,12 @@
          b% xtra(x_inclination) = b% xtra(x_inclination) + idot * b% time_step * secyer
          b% xtra(x_idot) = idot
 
+         ! do not go beyond minimum inclination value
+         if (b% xtra(x_inclination) < min_inclination) b% xtra(x_inclination) = min_inclination
+
          if (dbg) write(*,1) 'inclination', b% xtra(x_inclination) * rad2a
 
-      end function  extras_binary_start_step
+      end function extras_binary_start_step
       
       !Return either keep_going, retry or terminate
       integer function extras_binary_check_model(binary_id)
@@ -551,17 +555,19 @@
          extras_binary_finish_step = keep_going
          
       end function extras_binary_finish_step
-      
+     
+
       subroutine extras_binary_after_evolve(binary_id, ierr)
          type (binary_info), pointer :: b
          integer, intent(in) :: binary_id
          integer, intent(out) :: ierr
+
          call binary_ptr(binary_id, b, ierr)
          if (ierr /= 0) then ! failure in  binary_ptr
             return
-         end if      
+         end if 
          
- 
       end subroutine extras_binary_after_evolve     
       
+
       end module run_binary_extras
