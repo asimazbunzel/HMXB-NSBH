@@ -367,14 +367,40 @@
          integer, intent(in) :: id
          integer :: ierr
          type (star_info), pointer :: s
+         real(dp) :: center_h1, center_he4
+         real(dp) :: center_h1_old, center_he4_old
 
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
 
          extras_finish_step = keep_going
+         
+         ! saved profiles at specific stages
+         center_h1 = s% xa(s% net_iso(ih1), s% nz)
+         center_h1_old = s% xa_old(s% net_iso(ih1), s% nz_old)
+         center_he4 = s% xa(s% net_iso(ihe4), s% nz)
+         center_he4_old = s% xa_old(s% net_iso(ihe4), s% nz_old)
+         if (center_h1 < 0.5 .and. center_h1_old > 0.5) then
+            call star_write_profile_info(id, 'LOGS/prof_h50.data', ierr)
+            if (ierr /= 0) return
+         else if (center_h1 < 1d-6 .and. center_h1_old > 1d-6) then
+            call star_write_profile_info(id, 'LOGS/prof_h00.data', ierr)
+            if (ierr /= 0) return
+         else if (center_h1 < 1d-6) then
+            if (center_he4 < 0.5 .and. center_he4_old > 0.5) then
+               call star_write_profile_info(id, 'LOGS/prof_he50.data', ierr)
+               if (ierr /= 0) return
+            else if (center_he4 < 1d-5 .and. center_he4_old > 1d-5) then
+               call star_write_profile_info(id, 'LOGS/prof_he00.data', ierr)
+               if (ierr /= 0) return
+            end if
+         end if
 
+         ! stop at C depletion
          if (s% center_c12 < 1d-6 .and. s% center_h1 < 1d-6) then
+            call star_write_profile_info(id, 'LOGS/prof_final.data', ierr)
+            if (ierr /= 0) return
             s% termination_code = t_xtra1
             termination_code_str(t_xtra1) = 'reach C depletion'
             extras_finish_step = terminate
