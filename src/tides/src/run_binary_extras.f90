@@ -44,7 +44,7 @@
 
       ! inclination value
       real(dp) :: initial_inclination
-      real(dp), parameter :: min_inclination = 1d-6
+      real(dp), parameter :: min_inclination = 1d-8
       
       contains
       
@@ -488,7 +488,8 @@
          extras_binary_startup = keep_going
 
       end function  extras_binary_startup
-      
+     
+
       integer function extras_binary_start_step(binary_id,ierr)
          type (binary_info), pointer :: b
          integer, intent(in) :: binary_id
@@ -524,6 +525,7 @@
 
       end function extras_binary_start_step
       
+
       !Return either keep_going, retry or terminate
       integer function extras_binary_check_model(binary_id)
          type (binary_info), pointer :: b
