@@ -46,7 +46,7 @@
    Grid1_ybot = 0.08 ! fraction of full window width for margin on bottom
    Grid1_ytop = 0.92 ! fraction of full window width for margin on top
 
-   Grid1_title = 'CE with rotation'
+   Grid1_title = 'Non-coplanar tides'
    Grid1_num_cols = 8 ! divide plotting region into this many equal width cols
    Grid1_num_rows = 8 ! divide plotting region into this many equal height rows
    Grid1_num_plots = 6 ! <= 10

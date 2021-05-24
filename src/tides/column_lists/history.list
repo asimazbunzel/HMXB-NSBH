@@ -526,7 +526,7 @@
       !surf_avg_j_rot
       !surf_avg_omega
       !surf_avg_omega_crit
-      !surf_avg_omega_div_omega_crit
+      surf_avg_omega_div_omega_crit
       !surf_avg_v_rot ! km/sec rotational velocity at equator
       !surf_avg_v_crit ! critical rotational velocity at equator
       !surf_avg_v_div_v_crit
@@ -1210,7 +1210,7 @@
       !num_newton_iterations ! iterations at this step
       !total_num_newton_iterations ! total iterations during the run
 
-      !rotation_solver_steps
+      rotation_solver_steps
 
       !diffusion_solver_steps
       !diffusion_solver_iters
