@@ -22,6 +22,17 @@
     set_initial_model_number = .true.
     initial_model_number = 0
 
+    set_uniform_initial_composition = .true.
+    initial_h1 = 0.7d0
+    initial_h2 = 0d0
+    initial_he3 = 0d0
+    initial_he4 = 0.28d0
+
+    relax_initial_Z = .true.
+    new_Z = 0.017  !0.0017  !0.017d0
+    relax_initial_Y = .true.
+    new_Y = 0.28  !0.2521  !0.28d0
+
 / ! end of star_job namelist
 
 
@@ -40,7 +51,7 @@
     ! kap options
     ! see kap/defaults/kap.defaults
     use_Type2_opacities = .true.
-    Zbase = 0.02
+    Zbase = 0.017
 
 / ! end of kap namelist
 
@@ -48,7 +59,7 @@
 &controls
 
     ! inclination between star spin & orbital angular momentum
-    x_ctrl(1) = 45d0
+    x_ctrl(1) = 70d0
 
     max_model_number = 25000
 
